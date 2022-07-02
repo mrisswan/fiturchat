@@ -1,15 +1,21 @@
 <?php
 class Message extends CI_controller
 {
+	public function __construct()
+	{
+		parent::__construct();
+		$this->load->helper('url');
+	}
+
 	public function index()
 	{
 		if (isset($_SESSION['image'])) {
 			$this->load->helper('url');
-			$datah['judul'] = 'Halaman Chat';
+			$data['judul'] = 'Halaman Chat';
 			$data['data'] = $this->Messagemodel->ownerDetails();
 
 			// $this->load->view('template/header', $data);
-			$this->load->view('message/message', $datah);
+			$this->load->view('message/message', $data);
 		} else {
 			$this->load->view('error/error');
 		}
@@ -79,19 +85,27 @@ class Message extends CI_controller
 	}
 
 	public function sendMessage()
-	{
-		if (isset($_POST['data']) && isset($_SESSION['uniqueid'])) {
-			$jsonDecode = json_decode($_POST['data'], true);
-			$uniq = $_SESSION['uniqueid'];
-			$arr = array(
-				'time' => $jsonDecode['datetime'],
-				'sender_message_id' => $uniq,
-				'receiver_message_id' => $jsonDecode['uniq'],
-				'message' => $jsonDecode['message'],
-			);
-			$this->Messagemodel->sentMessage($arr, 'required');
-		}
-	}
+    {
+        // load validation
+        $this->load->library('form_validation');
+        $this->form_validation->set_rules('text_chat', 'Message', 'required');
+        $this->form_validation->set_rules('receiver_message_id', 'Target user', 'required');
+
+        // if validation fails
+        if ($this->form_validation->run() !== false) {
+            // insert/save to database
+			$data = [
+				'message'             => $_POST['text_chat'],
+				'sender_message_id'   => $_SESSION['uniqueid'],
+				'receiver_message_id' => $_POST['receiver_message_id'],
+				'time'                => date('Y-m-d H:i:s'),
+			];
+
+			$this->Messagemodel->sentMessage($data);
+        }
+
+        return redirect('message');
+    }
 
 	// public function sendMessage()
 	// {

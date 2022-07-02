@@ -75,6 +75,10 @@ $(document).ready(function () {
 				inter = setInterval(function () {
 					sendUserUniqIDForMsg(unique_id, bg_image);
 				}, 100);
+
+				// set target
+				$('[name="receiver_message_id"]').val(unique_id);
+
 			})
 			$('.innerBox').mouseover(function () {
 				clearInterval(inter2);
