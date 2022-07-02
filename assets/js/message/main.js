@@ -240,27 +240,29 @@ $(document).ready(function () {
 			}
 		})
 	});
-	//send message after button click
-	$('#send_message').click(function (e) {
-		var d = new Date(),
-			messageHour = d.getHours(),
-			messageMinute = d.getMinutes(),
-			messageSec = d.getSeconds(),
-			messageYear = d.getFullYear(),
-			messageDate = d.getDate(),
-			messageMonth = d.getMonth() + 1,
-			actualDateTime = `${messageYear}-${messageMonth}-${messageDate} ${messageHour}:${messageMinute}:${messageSec}`;
-		var message = $('#messageText').val();
-		var data = {
-			message: message,
-			datetime: actualDateTime,
-			uniq: unique_id
-		}
-		var jsonData = JSON.stringify(data);
-		$.post('sent', { data: jsonData }, function (data) {
+
+	// submit form using ajax
+	$('#sendMSG').submit(function (e) {
+		e.preventDefault();
+
+		var $form = $(this);
+		var url = $form.attr('action');
+
+		var posting = $.post(url, $form.serialize());
+
+
+		posting.done(function(data) {
 			$('#messageText').val('');
-		})
-	})
+			
+			
+			scrollToBottom();
+		});
+
+		posting.fail(function() {
+			// 
+		});
+	});
+
 	// my details edit icon
 	$('#edit_icon').click(function () {
 		$('#main').addClass('blur');

@@ -25,7 +25,7 @@ if (isset($_SESSION)) {
 
 <body>
 	<?php echo validation_errors('text_chat'); ?>
-	<?php echo form_open('message/sendmessage', [], ['receiver_message_id' => '']); ?>
+	<?php echo form_open('message/sendmessage', ['id' => 'sendMSG'], ['receiver_message_id' => '']); ?>
 	<section id="main" class="bg-dark">
 		<div id="chat_user_list">
 			<div id="headerchat">
