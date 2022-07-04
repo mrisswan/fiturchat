@@ -45,12 +45,8 @@ class Messagemodel extends CI_model
 	public function sentMessage($data)
 	{
 		if (isset($data)) {
-			echo $this->db->insert('user_messages', $data);
-			// required
-		} else {
+			return $this->db->insert('user_messages', $data);
 		}
-
-		// $this->db->insert('user_messages',$data);
 	}
 	public function getmessage($data)
 	{

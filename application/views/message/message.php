@@ -25,7 +25,7 @@ if (isset($_SESSION)) {
 
 <body>
 	<?php echo validation_errors('text_chat'); ?>
-	<?php echo form_open(); ?>
+	<?php echo form_open('message/sendmessage', ['id' => 'sendMSG'], ['receiver_message_id' => '']); ?>
 	<section id="main" class="bg-dark">
 		<div id="chat_user_list">
 			<div id="headerchat">
@@ -75,7 +75,7 @@ if (isset($_SESSION)) {
 				<div id="messageBar" class="py-4 px-4">
 					<div id="textBox_attachment_emoji_container">
 						<div id="text_box_message">
-							<input type="text" name="text_chat" value="<?php echo set_value('text_chat'); ?>" maxlength="200" name="txt_message" id="messageText" class="form-control" placeholder="Type your message" required>
+							<input type="text" name="text_chat" value="<?php echo set_value('text_chat'); ?>" maxlength="200" id="messageText" class="form-control" placeholder="Type your message" required>
 						</div>
 						<div id="text_counter">
 							<p id="count_text" class="m-0 p-0"></p>
